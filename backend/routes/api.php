@@ -17,9 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('getCurrency', [currencyController::class, 'index']);
-Route::get('getUom', [uomController::class, 'index']);
-Route::get('getCharge', [chargeController::class, 'index']);
+Route::prefix('backend')->group(function () {
+    Route::get('getCurrency', [currencyController::class, 'index']);
+    Route::get('getUom', [uomController::class, 'index']);
+    Route::get('getCharge', [chargeController::class, 'index']);
+});
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
