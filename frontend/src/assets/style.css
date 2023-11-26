@@ -1,0 +1,85 @@
+@import '~bootstrap/dist/css/bootstrap.css';
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+
+
+:root {
+    --vz-primary-100 : #C9FBEA;
+    --vz-primary-200 : #95F8DE;
+    --vz-primary-300 : #5EEBD3;
+    --vz-primary-400 : #36D8CA;
+    --vz-primary-500 : #00BFBF;
+    --vz-primary-600 : #0096A4;
+    --vz-white : #ffff;
+    --bs-body-font-size:0.9rem;
+    --bs-body-font-family: "Plus Jakarta Sans", sans-serif;
+    --bs-link-color : #00000;
+}
+
+thead th {
+  font-size:0.8rem;
+  font-weight: 400;
+} 
+
+tfoot td{
+  font-size:0.7rem;
+  font-weight: 400;
+}
+
+.right-align-input {
+  text-align: right;
+}
+
+.btn{
+  border-radius:4px;
+}
+
+.btn-bd{
+  padding: 10px 60px;
+  border-radius: 4px;
+  font-weight: 400;
+}
+
+.btn-link{
+  text-decoration: none;
+}
+
+.btn-bd-primary {
+  background-color: var(--vz-primary-500);
+  color: var(--vz-white);
+}
+
+.btn-bd-primary:hover {
+  background-color: var(--vz-primary-600);
+  color: var(--vz-white);
+}
+
+.btn-bd-primary:active {
+  background-color: var(--vz-primary-400);
+  color: var(--vz-white);
+}
+
+.text-bd-primary{
+  color: var(--vz-primary-500);
+}
+.text-bd-primary:active{
+  color: var(--vz-primary-400);
+}
+
+.accordion-button:not(.collapsed){
+  background-color: var(--vz-white);
+  color: var(--vz-primary-500);
+  font-weight: 500;
+}
+
+.accordion-body{
+  padding: 0.5rem 0;
+}
+
+.accordion-button::after{
+  margin-left: 12px;
+}
+
+.form-control:disabled{
+  background-color : var(--vz-white);
+  border: 0;
+}
