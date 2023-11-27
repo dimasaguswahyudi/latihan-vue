@@ -60,7 +60,7 @@
                   <AtomSelect
                     class="form-select form-select-sm"
                     v-model="costs.Uom"
-                    :options="UomOptions"
+                    :options="costs.UomOptions"
                   />
                 </td>
                 <td>
@@ -96,7 +96,7 @@
                   <AtomSelect
                     class="form-select form-select-sm"
                     v-model="costs.Currency"
-                    :options="CurrencyOptions"
+                    :options="costs.CurrencyOptions"
                   />
                 </td>
                 <td>
@@ -104,7 +104,7 @@
                     class="form-control form-control-sm right-align-input"
                     type="text"
                     v-model="costs.VatAmount"
-                    :isDisabled="inputDisabled"
+                    :isDisabled="costs.inputDisabled"
                   />
                 </td>
                 <td>
@@ -112,7 +112,7 @@
                     class="form-control form-control-sm right-align-input"
                     type="text"
                     v-model="costs.SubTotal"
-                    :isDisabled="inputDisabled"
+                    :isDisabled="costs.inputDisabled"
                   />
                 </td>
                 <td>
@@ -120,14 +120,14 @@
                     class="form-control form-control-sm right-align-input"
                     type="text"
                     v-model="costs.Total"
-                    :isDisabled="inputDisabled"
+                    :isDisabled="costs.inputDisabled"
                   />
                 </td>
                 <td>
                   <AtomSelect
                     class="form-select form-select-sm"
                     v-model="costs.ChargeTo"
-                    :options="ChargeToOptions"
+                    :options="costs.ChargeToOptions"
                   />
                 </td>
                 <td>
@@ -205,161 +205,142 @@ export default {
   },
   data() {
     return {
-      cost : [
-          {
-            inputDisabled: true,
-            Description: null,
-            Qty: null,
-            Uom: null,
-            UomOptions: [
-              { value: "red", label: "Red" },
-              { value: "blue", label: "Blue" },
-              { value: "green", label: "Green" },
-            ],
-            UnitPrice: null,
-            Discount: 0,
-            Vat: 0,
-            Currency: null,
-            CurrencyOptions: [],
-            VatAmount: 0,
-            VatAmountTotalUsd: 0,
-            VatAmountTotalUad: 0,
-            SubTotal: 0,
-            Total: 0,
-            ChargeTo: null,
-            ChargeToOptions: [
-              { value: "red", label: "Red" },
-              { value: "blue", label: "Blue" },
-              { value: "green", label: "Green" },
-            ],
-            ExchangeRate: 36725,
-          },
-          {
-            inputDisabled: true,
-            Description: null,
-            Qty: null,
-            Uom: null,
-            UomOptions: [
-              { value: "red", label: "Red" },
-              { value: "blue", label: "Blue" },
-              { value: "green", label: "Green" },
-            ],
-            UnitPrice: null,
-            Discount: 0,
-            Vat: 0,
-            Currency: null,
-            CurrencyOptions: [],
-            VatAmount: 0,
-            VatAmountTotalUsd: 0,
-            VatAmountTotalUad: 0,
-            SubTotal: 0,
-            Total: 0,
-            ChargeTo: null,
-            ChargeToOptions: [
-              { value: "red", label: "Red" },
-              { value: "blue", label: "Blue" },
-              { value: "green", label: "Green" },
-            ],
-            ExchangeRate: 36725,
-          },
-      ]
+      ExchangeRate: 36725,
+      cost: [
+        {
+          inputDisabled: true,
+          Description: null,
+          Qty: null,
+          Uom: null,
+          UomOptions: [],
+          UnitPrice: null,
+          Discount: 0,
+          Vat: 0,
+          Currency: null,
+          CurrencyOptions: [],
+          VatAmount: 0,
+          VatAmountTotalUsd: 0,
+          VatAmountTotalUad: 0,
+          SubTotal: 0,
+          Total: 0,
+          ChargeTo: null,
+          ChargeToOptions: [],
+        },
+        {
+          inputDisabled: true,
+          Description: null,
+          Qty: null,
+          Uom: null,
+          UomOptions: [],
+          UnitPrice: null,
+          Discount: 0,
+          Vat: 0,
+          Currency: null,
+          CurrencyOptions: [],
+          VatAmount: 0,
+          VatAmountTotalUsd: 0,
+          VatAmountTotalUad: 0,
+          SubTotal: 0,
+          Total: 0,
+          ChargeTo: null,
+          ChargeToOptions: [],
+        },
+      ],
     };
   },
   mounted() {
-    this.getCurrency();
-    this.getUom();
-    this.getCharge();
+    this.getCurrency(this.cost);
+    this.getUom(this.cost);
+    this.getCharge(this.cost);
   },
   methods: {
-
     addCost() {
-      this.cost.push(
-        {
-            inputDisabled: true,
-            Description: null,
-            Qty: null,
-            Uom: null,
-            UomOptions: [
-              { value: "red", label: "Red" },
-              { value: "blue", label: "Blue" },
-              { value: "green", label: "Green" },
-            ],
-            UnitPrice: null,
-            Discount: 0,
-            Vat: 0,
-            Currency: null,
-            CurrencyOptions: [],
-            VatAmount: 0,
-            VatAmountTotalUsd: 0,
-            VatAmountTotalUad: 0,
-            SubTotal: 0,
-            Total: 0,
-            ChargeTo: null,
-            ChargeToOptions: [
-              { value: "red", label: "Red" },
-              { value: "blue", label: "Blue" },
-              { value: "green", label: "Green" },
-            ],
-            ExchangeRate: 36725,
-          }
-        );
+      this.getCurrency(this.cost);
+      this.getUom(this.cost);
+      this.getCharge(this.cost);
+
+      this.cost.push({
+        inputDisabled: true,
+        Description: null,
+        Qty: null,
+        Uom: null,
+        UomOptions: [],
+        UnitPrice: null,
+        Discount: 0,
+        Vat: 0,
+        Currency: null,
+        CurrencyOptions: [],
+        VatAmount: 0,
+        VatAmountTotalUsd: 0,
+        VatAmountTotalUad: 0,
+        SubTotal: 0,
+        Total: 0,
+        ChargeTo: null,
+        ChargeToOptions: [],
+      });
     },
 
-    minCost(){
+    minCost() {
       this.cost.pop();
     },
-    getCurrency() {
+    getCurrency(data) {
       axios
-      .get("http://127.0.0.1:8000/api/backend/getCurrency")
-      .then(function (response) {
-        let arr = []
-        response.data.forEach(element => {
-          arr.push({
+        .get("http://127.0.0.1:8000/api/backend/getCurrency")
+        .then(function (response) {
+          let arr = [];
+          response.data.forEach((element) => {
+            arr.push({
               value: element.id,
               label: element.alias,
-          })
+            });
+          });
+          data.forEach((element) => {
+            element.CurrencyOptions = arr;
+          });
+        })
+        .catch(function (error) {
+          console.log(error);
         });
-        console.log(arr);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
     },
 
-    getUom(){
+    getUom(data) {
       axios
-      .get("http://127.0.0.1:8000/api/backend/getUom")
-      .then(function (response) {
-        let arr = []
-        response.data.forEach(element => {
-          arr.push({
+        .get("http://127.0.0.1:8000/api/backend/getUom")
+        .then(function (response) {
+          let arr = [];
+          response.data.forEach((element) => {
+            arr.push({
               value: element.id,
               label: element.name,
-          })
+            });
+          });
+          data.forEach((element) => {
+            element.UomOptions = arr;
+          });
+        })
+        .catch(function (error) {
+          console.log(error);
         });
-        console.log(arr);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
     },
 
-    getCharge(){
+    getCharge(data) {
       axios
-      .get("http://127.0.0.1:8000/api/backend/getCharge")
-      .then(function (response) {
-        let arr = []
-        response.data.forEach(element => {
-          arr.push({
+        .get("http://127.0.0.1:8000/api/backend/getCharge")
+        .then(function (response) {
+          let arr = [];
+          response.data.forEach((element) => {
+            arr.push({
               value: element.id,
               label: element.name,
-          })
+            });
+          });
+          data.forEach((element) => {
+            element.ChargeToOptions = arr;
+          });
+        })
+        .catch(function (error) {
+          console.log(error);
         });
-        console.log(arr);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
     },
   },
 };
