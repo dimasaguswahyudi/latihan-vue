@@ -104,7 +104,7 @@
                     class="form-control form-control-sm right-align-input"
                     type="text"
                     v-model="costs.VatAmount"
-                    :isDisabled="costs.inputDisabled"
+                    :isDisabled="inputDisabled"
                   />
                 </td>
                 <td>
@@ -112,7 +112,7 @@
                     class="form-control form-control-sm right-align-input"
                     type="text"
                     v-model="costs.SubTotal"
-                    :isDisabled="costs.inputDisabled"
+                    :isDisabled="inputDisabled"
                   />
                 </td>
                 <td>
@@ -120,7 +120,7 @@
                     class="form-control form-control-sm right-align-input"
                     type="text"
                     v-model="costs.Total"
-                    :isDisabled="costs.inputDisabled"
+                    :isDisabled="inputDisabled"
                   />
                 </td>
                 <td>
@@ -161,9 +161,30 @@
                 <td class="table-light">
                   <AtomLabel labelText="AED in Total" />
                 </td>
-                <td class="table-light">0</td>
-                <td class="table-light">0</td>
-                <td class="table-light">0</td>
+                <td class="table-light text-end">
+                  <AtomInput
+                    class="form-control form-control-sm right-align-input"
+                    type="text"
+                    v-model="GrandVatAmountAed"
+                    :isDisabled="inputDisabled"
+                  />
+                </td>
+                <td class="table-light">
+                  <AtomInput
+                    class="form-control form-control-sm right-align-input"
+                    type="text"
+                    v-model="GrandSubAed"
+                    :isDisabled="inputDisabled"
+                  />
+                </td>
+                <td class="table-light">
+                  <AtomInput
+                    class="form-control form-control-sm right-align-input"
+                    type="text"
+                    v-model="GrandTotalAed"
+                    :isDisabled="inputDisabled"
+                  />
+                </td>
                 <td colspan="1" rowspan="2"></td>
                 <td rowspan="2">
                   <button class="btn btn-sm btn-bd-primary" @click="minCost">
@@ -178,9 +199,30 @@
                 <td class="table-light">
                   <AtomLabel labelText="AUD in Total" />
                 </td>
-                <td class="table-light">0</td>
-                <td class="table-light">0</td>
-                <td class="table-light">0</td>
+                <td class="table-light">
+                  <AtomInput
+                    class="form-control form-control-sm right-align-input"
+                    type="text"
+                    v-model="GrandVatAmountAud"
+                    :isDisabled="inputDisabled"
+                  />
+                </td>
+                <td class="table-light">
+                  <AtomInput
+                    class="form-control form-control-sm right-align-input"
+                    type="text"
+                    v-model="GrandSubAud"
+                    :isDisabled="inputDisabled"
+                  />
+                </td>
+                <td class="table-light">
+                  <AtomInput
+                    class="form-control form-control-sm right-align-input"
+                    type="text"
+                    v-model="GrandTotalAud"
+                    :isDisabled="inputDisabled"
+                  />
+                </td>
               </tr>
             </tfoot>
           </table>
@@ -206,76 +248,79 @@ export default {
   data() {
     return {
       ExchangeRate: 36725,
+      inputDisabled: true,
+      GrandVatAmountAed : 0,
+      GrandVatAmountAud : 0,
+      GrandSubAed : 0,
+      GrandSubAud : 0,
+      GrandTotalAed : 0,
+      GrandTotalAud : 0,
       cost: [
         {
-          inputDisabled: true,
           Description: null,
           Qty: null,
           Uom: null,
-          UomOptions: [],
           UnitPrice: null,
           Discount: 0,
           Vat: 0,
           Currency: null,
-          CurrencyOptions: [],
           VatAmount: 0,
           VatAmountTotalUsd: 0,
           VatAmountTotalUad: 0,
           SubTotal: 0,
           Total: 0,
           ChargeTo: null,
+          UomOptions: [],
+          CurrencyOptions: [],
           ChargeToOptions: [],
         },
         {
-          inputDisabled: true,
           Description: null,
           Qty: null,
           Uom: null,
-          UomOptions: [],
           UnitPrice: null,
           Discount: 0,
           Vat: 0,
           Currency: null,
-          CurrencyOptions: [],
           VatAmount: 0,
           VatAmountTotalUsd: 0,
           VatAmountTotalUad: 0,
           SubTotal: 0,
           Total: 0,
           ChargeTo: null,
+          UomOptions: [],
+          CurrencyOptions: [],
           ChargeToOptions: [],
         },
       ],
     };
   },
   mounted() {
-    this.getCurrency(this.cost);
     this.getUom(this.cost);
+    this.getCurrency(this.cost);
     this.getCharge(this.cost);
   },
   methods: {
     addCost() {
-      this.getCurrency(this.cost);
       this.getUom(this.cost);
+      this.getCurrency(this.cost);
       this.getCharge(this.cost);
-
       this.cost.push({
-        inputDisabled: true,
         Description: null,
         Qty: null,
         Uom: null,
-        UomOptions: [],
         UnitPrice: null,
         Discount: 0,
         Vat: 0,
         Currency: null,
-        CurrencyOptions: [],
         VatAmount: 0,
         VatAmountTotalUsd: 0,
         VatAmountTotalUad: 0,
         SubTotal: 0,
         Total: 0,
         ChargeTo: null,
+        UomOptions: [],
+        CurrencyOptions: [],
         ChargeToOptions: [],
       });
     },
@@ -287,15 +332,14 @@ export default {
       axios
         .get("http://127.0.0.1:8000/api/backend/getCurrency")
         .then(function (response) {
-          let arr = [];
-          response.data.forEach((element) => {
-            arr.push({
-              value: element.id,
-              label: element.alias,
-            });
-          });
+          
+          let arr = response.data.map((element) => ({
+            value: element.id,
+            label: element.alias,
+          }));
+
           data.forEach((element) => {
-            element.CurrencyOptions = arr;
+              element.CurrencyOptions = arr;
           });
         })
         .catch(function (error) {
@@ -307,15 +351,12 @@ export default {
       axios
         .get("http://127.0.0.1:8000/api/backend/getUom")
         .then(function (response) {
-          let arr = [];
-          response.data.forEach((element) => {
-            arr.push({
-              value: element.id,
-              label: element.name,
-            });
-          });
+          let arr = response.data.map((element) => ({
+            value: element.id,
+            label: element.name,
+          }));
           data.forEach((element) => {
-            element.UomOptions = arr;
+              element.UomOptions = arr;
           });
         })
         .catch(function (error) {
@@ -327,15 +368,12 @@ export default {
       axios
         .get("http://127.0.0.1:8000/api/backend/getCharge")
         .then(function (response) {
-          let arr = [];
-          response.data.forEach((element) => {
-            arr.push({
-              value: element.id,
-              label: element.name,
-            });
-          });
+          let arr = response.data.map((element) => ({
+            value: element.id,
+            label: element.name,
+          }));
           data.forEach((element) => {
-            element.ChargeToOptions = arr;
+              element.ChargeToOptions = arr;
           });
         })
         .catch(function (error) {
