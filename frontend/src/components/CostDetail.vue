@@ -60,7 +60,7 @@
                   <AtomSelect
                     class="form-select form-select-sm"
                     v-model="costs.Uom"
-                    :options="costs.UomOptions"
+                    :options="UomOptions"
                   />
                 </td>
                 <td>
@@ -96,7 +96,7 @@
                   <AtomSelect
                     class="form-select form-select-sm"
                     v-model="costs.Currency"
-                    :options="costs.CurrencyOptions"
+                    :options="CurrencyOptions"
                   />
                 </td>
                 <td>
@@ -127,16 +127,11 @@
                   <AtomSelect
                     class="form-select form-select-sm"
                     v-model="costs.ChargeTo"
-                    :options="costs.ChargeToOptions"
+                    :options="ChargeToOptions"
                   />
                 </td>
                 <td>
-                  <button class="btn btn-sm btn-bd-primary" @click="addCost">
-                    <font-awesome-icon
-                      :icon="['fas', 'plus']"
-                      style="color: #ffffff"
-                    />
-                  </button>
+                  <AtomButtonIcons class="btn btn-sm btn-bd-primary" @click="addCost" type="button" icons="fa-solid fa-plus"/>
                 </td>
               </tr>
             </tbody>
@@ -187,12 +182,7 @@
                 </td>
                 <td colspan="1" rowspan="2"></td>
                 <td rowspan="2">
-                  <button class="btn btn-sm btn-bd-primary" @click="minCost">
-                    <font-awesome-icon
-                      :icon="['fas', 'minus']"
-                      style="color: #ffffff"
-                    />
-                  </button>
+                  <AtomButtonIcons class="btn btn-sm btn-bd-primary" @click="minCost" type="button" icons="fa-solid fa-minus"/>
                 </td>
               </tr>
               <tr>
@@ -236,6 +226,7 @@
 import AtomSelect from "./atom/AtomSelect.vue";
 import AtomInput from "./atom/AtomInput.vue";
 import AtomLabel from "./atom/AtomLabel.vue";
+import AtomButtonIcons from "./atom/AtomButtonIcons.vue";
 import axios from "axios";
 
 export default {
@@ -244,8 +235,9 @@ export default {
     AtomInput,
     AtomSelect,
     AtomLabel,
+    AtomButtonIcons
   },
-  data() {
+  data: () => {
     return {
       ExchangeRate: 36725,
       inputDisabled: true,
@@ -255,6 +247,9 @@ export default {
       GrandSubAud : 0,
       GrandTotalAed : 0,
       GrandTotalAud : 0,
+      UomOptions: [],
+      CurrencyOptions: [],
+      ChargeToOptions: [],
       cost: [
         {
           Description: null,
@@ -270,9 +265,6 @@ export default {
           SubTotal: 0,
           Total: 0,
           ChargeTo: null,
-          UomOptions: [],
-          CurrencyOptions: [],
-          ChargeToOptions: [],
         },
         {
           Description: null,
@@ -288,23 +280,24 @@ export default {
           SubTotal: 0,
           Total: 0,
           ChargeTo: null,
-          UomOptions: [],
-          CurrencyOptions: [],
-          ChargeToOptions: [],
         },
       ],
     };
   },
   mounted() {
-    this.getUom(this.cost);
-    this.getCurrency(this.cost);
-    this.getCharge(this.cost);
+    this.getUom();
+    this.getCurrency();
+    this.getCharge();
   },
   methods: {
+    formatCurrency(value){
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0, // Set the minimum number of fraction digits to 0
+      }).format(value)
+    },
     addCost() {
-      this.getUom(this.cost);
-      this.getCurrency(this.cost);
-      this.getCharge(this.cost);
       this.cost.push({
         Description: null,
         Qty: null,
@@ -319,70 +312,56 @@ export default {
         SubTotal: 0,
         Total: 0,
         ChargeTo: null,
-        UomOptions: [],
-        CurrencyOptions: [],
-        ChargeToOptions: [],
       });
     },
-
     minCost() {
       this.cost.pop();
     },
-    getCurrency(data) {
-      axios
-        .get("http://127.0.0.1:8000/api/backend/getCurrency")
-        .then(function (response) {
-          
-          let arr = response.data.map((element) => ({
-            value: element.id,
-            label: element.alias,
-          }));
-
-          data.forEach((element) => {
-              element.CurrencyOptions = arr;
-          });
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+    async getCurrency() {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/backend/getCurrency")
+        this.CurrencyOptions = response.data.map((res)=>({
+            value: res.id,
+            label: res.alias
+        }))
+      } catch (error) {
+        console.log(error)
+      }
     },
-
-    getUom(data) {
-      axios
-        .get("http://127.0.0.1:8000/api/backend/getUom")
-        .then(function (response) {
-          let arr = response.data.map((element) => ({
-            value: element.id,
-            label: element.name,
-          }));
-          data.forEach((element) => {
-              element.UomOptions = arr;
-          });
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+    async getUom() {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/backend/getUom")
+        this.UomOptions = response.data.map((res)=>({
+            value: res.id,
+            label: res.name
+        }))
+      } catch (error) {
+        console.log(error)
+      }
     },
-
-    getCharge(data) {
-      axios
-        .get("http://127.0.0.1:8000/api/backend/getCharge")
-        .then(function (response) {
-          let arr = response.data.map((element) => ({
-            value: element.id,
-            label: element.name,
-          }));
-          data.forEach((element) => {
-              element.ChargeToOptions = arr;
-          });
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+    async getCharge() {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/api/backend/getCharge")
+        this.ChargeToOptions = response.data.map((res)=>({
+            value: res.id,
+            label: res.name
+        }))
+      } catch (error) {
+        console.log(error)
+      }
     },
   },
 };
 </script>
+
+<style scoped>
+  tfoot tr td .form-control:disabled{
+    background-color : #f8f9fa;
+    border: 0;
+    min-height: calc(1em + 0.5rem + calc(var(--bs-border-width) * 2));
+    font-size:0.6rem;
+  }
+</style>
 
 
 

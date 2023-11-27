@@ -13,7 +13,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 
 //import atom component
-const AtomComponents = ['AtomInput', 'AtomSelect', 'AtomLabel'];
+const AtomComponents = ['AtomInput', 'AtomSelect', 'AtomLabel', 'AtomButton'];
 AtomComponents.forEach((AtomComponent) => {
   import(`@/components/atom/${AtomComponent}.vue`).then((component) => {
     Vue.component(AtomComponent, component.default);

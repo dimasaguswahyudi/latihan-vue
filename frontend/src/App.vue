@@ -9,13 +9,13 @@
         <div class="d-flex justify-content-end">
           <div class="d-flex align-items-center flex-row mb-3">
             <div class="p-2">
-              <button class="btn btn-link">Cancel</button>
+              <AtomButton class="btn btn-link" labelButton="Cancel"/>
             </div>
             <div class="p-2">
-              <button type="submit" class="btn btn-bd btn-outline-secondary">Save a Draft</button>
+              <AtomButton type="submit" class="btn btn-bd btn-outline-secondary" labelButton="Save a Draft"/>
             </div>
             <div class="p-2">
-              <button type="submit" class="btn btn-bd btn-bd-primary">Submit</button>
+              <AtomButton type="submit" class="btn btn-bd btn-bd-primary" labelButton="Submit"/>
             </div>
           </div>
         </div>
@@ -26,11 +26,13 @@
 
 <script>
 import CostDetail from './components/CostDetail.vue';
+import AtomButton from './components/atom/AtomButton.vue';
 export default {
   name: "App",
   components: {
-    CostDetail
-  },
+    CostDetail,
+    AtomButton
+},
 };
 </script>
 
