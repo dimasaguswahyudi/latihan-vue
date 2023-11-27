@@ -39,12 +39,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr v-for="(costs, index) in cost" :key="index">
                 <td>
                   <AtomInput
                     class="form-control form-control-sm"
                     type="text"
-                    v-model="Description"
+                    v-model="costs.Description"
                     placeholder="Description"
                   />
                 </td>
@@ -52,14 +52,14 @@
                   <AtomInput
                     class="form-control form-control-sm"
                     type="number"
-                    v-model="Qty"
+                    v-model="costs.Qty"
                     placeholder="Qty"
                   />
                 </td>
                 <td>
                   <AtomSelect
                     class="form-select form-select-sm"
-                    v-model="Uom"
+                    v-model="costs.Uom"
                     :options="UomOptions"
                   />
                 </td>
@@ -67,7 +67,7 @@
                   <AtomInput
                     class="form-control form-control-sm"
                     type="text"
-                    v-model="UnitPrice"
+                    v-model="costs.UnitPrice"
                     placeholder="Unit Price"
                   />
                 </td>
@@ -75,14 +75,14 @@
                   <AtomInput
                     class="form-control form-control-sm"
                     type="text"
-                    v-model="Discount"
+                    v-model="costs.Discount"
                   />
                 </td>
                 <td>
                   <AtomInput
                     class="form-control form-control-sm"
                     type="text"
-                    v-model="Vat"
+                    v-model="costs.Vat"
                   />
                 </td>
                 <td>
@@ -95,7 +95,7 @@
                 <td>
                   <AtomSelect
                     class="form-select form-select-sm"
-                    v-model="Currency"
+                    v-model="costs.Currency"
                     :options="CurrencyOptions"
                   />
                 </td>
@@ -103,7 +103,7 @@
                   <AtomInput
                     class="form-control form-control-sm right-align-input"
                     type="text"
-                    v-model="VatAmount"
+                    v-model="costs.VatAmount"
                     :isDisabled="inputDisabled"
                   />
                 </td>
@@ -111,7 +111,7 @@
                   <AtomInput
                     class="form-control form-control-sm right-align-input"
                     type="text"
-                    v-model="SubTotal"
+                    v-model="costs.SubTotal"
                     :isDisabled="inputDisabled"
                   />
                 </td>
@@ -119,19 +119,19 @@
                   <AtomInput
                     class="form-control form-control-sm right-align-input"
                     type="text"
-                    v-model="Total"
+                    v-model="costs.Total"
                     :isDisabled="inputDisabled"
                   />
                 </td>
                 <td>
                   <AtomSelect
                     class="form-select form-select-sm"
-                    v-model="ChargeTo"
+                    v-model="costs.ChargeTo"
                     :options="ChargeToOptions"
                   />
                 </td>
                 <td>
-                  <button class="btn btn-sm btn-bd-primary">
+                  <button class="btn btn-sm btn-bd-primary" @click="addCost">
                     <font-awesome-icon
                       :icon="['fas', 'plus']"
                       style="color: #ffffff"
@@ -166,7 +166,7 @@
                 <td class="table-light">0</td>
                 <td colspan="1" rowspan="2"></td>
                 <td rowspan="2">
-                  <button class="btn btn-sm btn-bd-primary">
+                  <button class="btn btn-sm btn-bd-primary" @click="minCost">
                     <font-awesome-icon
                       :icon="['fas', 'minus']"
                       style="color: #ffffff"
@@ -205,32 +205,64 @@ export default {
   },
   data() {
     return {
-      inputDisabled: true,
-      Description: null,
-      Qty: null,
-      Uom: null,
-      UomOptions: [
-        { value: "red", label: "Red" },
-        { value: "blue", label: "Blue" },
-        { value: "green", label: "Green" },
-      ],
-      UnitPrice: null,
-      Discount: 0,
-      Vat: 0,
-      Currency: null,
-      CurrencyOptions: [],
-      VatAmount: 0,
-      VatAmountTotalUsd: 0,
-      VatAmountTotalUad: 0,
-      SubTotal: 0,
-      Total: 0,
-      ChargeTo: null,
-      ChargeToOptions: [
-        { value: "red", label: "Red" },
-        { value: "blue", label: "Blue" },
-        { value: "green", label: "Green" },
-      ],
-      ExchangeRate: 36725,
+      cost : [
+          {
+            inputDisabled: true,
+            Description: null,
+            Qty: null,
+            Uom: null,
+            UomOptions: [
+              { value: "red", label: "Red" },
+              { value: "blue", label: "Blue" },
+              { value: "green", label: "Green" },
+            ],
+            UnitPrice: null,
+            Discount: 0,
+            Vat: 0,
+            Currency: null,
+            CurrencyOptions: [],
+            VatAmount: 0,
+            VatAmountTotalUsd: 0,
+            VatAmountTotalUad: 0,
+            SubTotal: 0,
+            Total: 0,
+            ChargeTo: null,
+            ChargeToOptions: [
+              { value: "red", label: "Red" },
+              { value: "blue", label: "Blue" },
+              { value: "green", label: "Green" },
+            ],
+            ExchangeRate: 36725,
+          },
+          {
+            inputDisabled: true,
+            Description: null,
+            Qty: null,
+            Uom: null,
+            UomOptions: [
+              { value: "red", label: "Red" },
+              { value: "blue", label: "Blue" },
+              { value: "green", label: "Green" },
+            ],
+            UnitPrice: null,
+            Discount: 0,
+            Vat: 0,
+            Currency: null,
+            CurrencyOptions: [],
+            VatAmount: 0,
+            VatAmountTotalUsd: 0,
+            VatAmountTotalUad: 0,
+            SubTotal: 0,
+            Total: 0,
+            ChargeTo: null,
+            ChargeToOptions: [
+              { value: "red", label: "Red" },
+              { value: "blue", label: "Blue" },
+              { value: "green", label: "Green" },
+            ],
+            ExchangeRate: 36725,
+          },
+      ]
     };
   },
   mounted() {
@@ -239,6 +271,43 @@ export default {
     this.getCharge();
   },
   methods: {
+
+    addCost() {
+      this.cost.push(
+        {
+            inputDisabled: true,
+            Description: null,
+            Qty: null,
+            Uom: null,
+            UomOptions: [
+              { value: "red", label: "Red" },
+              { value: "blue", label: "Blue" },
+              { value: "green", label: "Green" },
+            ],
+            UnitPrice: null,
+            Discount: 0,
+            Vat: 0,
+            Currency: null,
+            CurrencyOptions: [],
+            VatAmount: 0,
+            VatAmountTotalUsd: 0,
+            VatAmountTotalUad: 0,
+            SubTotal: 0,
+            Total: 0,
+            ChargeTo: null,
+            ChargeToOptions: [
+              { value: "red", label: "Red" },
+              { value: "blue", label: "Blue" },
+              { value: "green", label: "Green" },
+            ],
+            ExchangeRate: 36725,
+          }
+        );
+    },
+
+    minCost(){
+      this.cost.pop();
+    },
     getCurrency() {
       axios
       .get("http://127.0.0.1:8000/api/backend/getCurrency")
