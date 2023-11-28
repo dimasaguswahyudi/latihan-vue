@@ -108,7 +108,6 @@
                 </td>
                 <td class="text-end">
                   <label>{{ formatNumber(costs.Total) }}</label>
-
                 </td>
                 <td>
                   <select class="form-select form-select-sm" v-model="costs.ChargeTo" @change="changeChargeTo(index, costs.ChargeTo)">
@@ -332,8 +331,6 @@ export default {
             Vat: 0,
             Currency: '1',
             VatAmount: 0,
-            VatAmountTotalUsd: 0,
-            VatAmountTotalUad: 0,
             SubTotal: 0,
             Total: 0,
             ChargeTo: '1',
@@ -347,8 +344,6 @@ export default {
             Vat: 0,
             Currency: '1',
             VatAmount: 0,
-            VatAmountTotalUsd: 0,
-            VatAmountTotalUad: 0,
             SubTotal: 0,
             Total: 0,
             ChargeTo: '1',
@@ -466,8 +461,6 @@ export default {
           Vat: 0,
           Currency: '1',
           VatAmount: 0,
-          VatAmountTotalUsd: 0,
-          VatAmountTotalUad: 0,
           SubTotal: 0,
           Total: 0,
           ChargeTo: '1',
