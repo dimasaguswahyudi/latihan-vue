@@ -12,7 +12,7 @@
               <AtomButton @click="buttonSubmit('cancel')" class="btn btn-link" labelButton="Cancel" />
             </div>
             <div class="p-2">
-              <AtomButton
+              <AtomButton  @click="buttonSubmit('save to draft')"
                 type="submit"
                 class="btn btn-bd btn-outline-secondary"
                 labelButton="Save a Draft"

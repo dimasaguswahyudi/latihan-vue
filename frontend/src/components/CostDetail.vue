@@ -252,6 +252,9 @@ export default {
           else if (this.typeEvent == 'cancel') {
             this.CancelEvent()
           }
+          else {
+            this.SavetoDraft()
+          }
         }
       },
       deep:true
@@ -307,6 +310,34 @@ export default {
           toast.addEventListener('mouseleave', Swal.resumeTimer);
         },
       })
+    },
+    SavetoDraft(){
+        const newParams = {
+          Cost: this.$store.getters.GetDatas.Cost,
+          ExchangeRate: this.$store.getters.GetDatas.ExchangeRate,
+          GrandVatAmountAed: this.$store.getters.GetDatas.GrandVatAmountAed,
+          GrandVatAmountUsd: this.$store.getters.GetDatas.GrandVatAmountUsd,
+          GrandSubAed: this.$store.getters.GetDatas.GrandSubAed,
+          GrandSubUsd: this.$store.getters.GetDatas.GrandSubUsd,
+          GrandTotalAed: this.$store.getters.GetDatas.GrandTotalAed,
+          GrandTotalUsd: this.$store.getters.GetDatas.GrandTotalUsd,
+          Type: "save to draft",
+        };
+        this.$store.commit('SetDatas', newParams);
+        console.log(this.$store.getters.GetDatas.Cost);
+        Swal.fire({
+          title: 'Success!',
+          text: 'Success Save To Draft Data',
+          icon: 'success',
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+          },
+        })
     },
     CancelEvent(){
       const newParams = {
