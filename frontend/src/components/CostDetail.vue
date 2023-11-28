@@ -55,6 +55,7 @@
                     type="number"
                     v-model="costs.Qty"
                     placeholder="Qty"
+                    min="1"
                   />
                 </td>
                 <td>
@@ -238,17 +239,23 @@ export default {
     AtomButtonIcons
   },
   props:{
-    submit:null
+    submit:null,
+    typeEvent:String
   },
   watch:{
     submit:{
       handler(newVal, oldVal){
         if (newVal != oldVal) {
-          this.submitEvent()
+          if (this.typeEvent == 'submit') {
+            this.submitEvent()
+          }
+          else if (this.typeEvent == 'cancel') {
+            this.CancelEvent()
+          }
         }
       },
       deep:true
-    }
+    },
   },
   data: () => {
     return {
@@ -290,6 +297,65 @@ export default {
       Swal.fire({
         title: 'Success!',
         text: 'Success Inserted Data',
+        icon: 'success',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        },
+      })
+    },
+    CancelEvent(){
+      const newParams = {
+        ExchangeRate: 1000,
+        GrandVatAmountAed : 0,
+        GrandVatAmountUsd : 0,
+        GrandSubAed : 0,
+        GrandSubUsd : 0,
+        GrandTotalAed : 0,
+        GrandTotalUsd : 0,
+        Type: null,
+        Cost : [
+          {
+            Description: null,
+            Qty: null,
+            Uom: '1',
+            UnitPrice: null,
+            Discount: 0,
+            Vat: 0,
+            Currency: '1',
+            VatAmount: 0,
+            VatAmountTotalUsd: 0,
+            VatAmountTotalUad: 0,
+            SubTotal: 0,
+            Total: 0,
+            ChargeTo: '1',
+          },
+          {
+            Description: null,
+            Qty: null,
+            Uom: '1',
+            UnitPrice: null,
+            Discount: 0,
+            Vat: 0,
+            Currency: '1',
+            VatAmount: 0,
+            VatAmountTotalUsd: 0,
+            VatAmountTotalUad: 0,
+            SubTotal: 0,
+            Total: 0,
+            ChargeTo: '1',
+          }
+        ]
+      }
+      this.$store.commit('SetToNullData', newParams);
+      console.log(this.$store.getters.GetDatas.Cost);
+      Swal.fire({
+        title: 'Success!',
+        text: 'Success Deleted Data in Vuex',
         icon: 'success',
         toast: true,
         position: 'top-end',
@@ -369,6 +435,7 @@ export default {
           Index: index,
           NewValue: newvalue
         };
+        this.ChangeTotal(index)
         this.$store.commit('SetCurrency', newParams);
     },
     changeUom(index,newvalue){
@@ -467,6 +534,9 @@ export default {
     font-size:0.6rem;
   }
   tbody tr td .form-control{
+    font-size:0.8rem;
+  }
+  tbody tr td .form-select{
     font-size:0.8rem;
   }
 </style>

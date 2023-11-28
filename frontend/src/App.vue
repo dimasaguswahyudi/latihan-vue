@@ -2,14 +2,14 @@
   <div class="container-fluid p-0">
     <div class="container-xxl">
       <h6 class="pt-4 pb-4">3rd Party Instruction</h6>
-      <CostDetail :submit="SubmitEvent"/>
+      <CostDetail :submit="SubmitEvent" :typeEvent="TypeEvent"/>
     </div>
     <footer class="py-3 bg-light fixed-bottom">
       <div class="container-xxl">
         <div class="d-flex justify-content-end">
           <div class="d-flex align-items-center flex-row mb-3">
             <div class="p-2">
-              <AtomButton class="btn btn-link" labelButton="Cancel" />
+              <AtomButton @click="buttonSubmit('cancel')" class="btn btn-link" labelButton="Cancel" />
             </div>
             <div class="p-2">
               <AtomButton
@@ -19,7 +19,7 @@
               />
             </div>
             <div class="p-2">
-              <AtomButton  @click="buttonSubmit()"
+              <AtomButton  @click="buttonSubmit('submit')"
                 type="submit"
                 class="btn btn-bd btn-bd-primary"
                 labelButton="Submit"
@@ -44,15 +44,18 @@ export default {
   data(){
     return {
       SubmitEvent:null,
+      TypeEvent:null,
     }
   },
   methods:{
-    buttonSubmit(){
+    buttonSubmit(type){
       if (this.SubmitEvent === true) {
-        this.SubmitEvent = "hallo dunia";
+        this.SubmitEvent = false;
+        this.TypeEvent = type;
       }
       else{
         this.SubmitEvent = true;
+        this.TypeEvent = type;
       }
     }
   }

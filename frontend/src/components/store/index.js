@@ -71,6 +71,17 @@ export default new Vuex.Store({
       state.GrandTotalUsd = newDatas.GrandTotalUsd
       state.Type = newDatas.Type
     },
+    SetToNullData(state, newValue){
+        state.Cost = newValue.Cost
+        state.ExchangeRate = newValue.ExchangeRate
+        state.GrandVatAmountAed = newValue.GrandVatAmountAed
+        state.GrandVatAmountUsd = newValue.GrandVatAmountUsd
+        state.GrandSubAed = newValue.GrandSubAed
+        state.GrandSubUsd = newValue.GrandSubUsd
+        state.GrandTotalAed = newValue.GrandTotalAed
+        state.GrandTotalUsd = newValue.GrandTotalUsd
+        state.Type = newValue.Type
+    },
     SetDataTotal(state, newValue){
       state.Cost[newValue.Index].SubTotal = newValue.HasilData
       state.Cost[newValue.Index].VatAmount = newValue.VatHasilData
