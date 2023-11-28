@@ -100,29 +100,15 @@
                       <Option v-for="option in CurrencyOptions" :value="option.value" :key="option.value">{{ option.label }}</Option>
                   </select>
                 </td>
-                <td>
-                  <AtomInput
-                    class="form-control form-control-sm right-align-input"
-                    type="text"
-                    v-model="costs.VatAmount"
-                    :isDisabled="inputDisabled"
-                  />
+                <td class="text-end">
+                  <label>{{ formatNumber(costs.VatAmount) }}</label>
                 </td>
-                <td>
-                  <AtomInput
-                    class="form-control form-control-sm right-align-input"
-                    type="text"
-                    v-model="costs.SubTotal"
-                    :isDisabled="inputDisabled"
-                  />
+                <td class="text-end">
+                  <label>{{ formatNumber(costs.SubTotal) }}</label>
                 </td>
-                <td>
-                  <AtomInput
-                    class="form-control form-control-sm right-align-input"
-                    type="text"
-                    v-model="costs.Total"
-                    :isDisabled="inputDisabled"
-                  />
+                <td class="text-end">
+                  <label>{{ formatNumber(costs.Total) }}</label>
+
                 </td>
                 <td>
                   <select class="form-select form-select-sm" v-model="costs.ChargeTo" @change="changeChargeTo(index, costs.ChargeTo)">
@@ -139,7 +125,7 @@
                 <td colspan="4" rowspan="2">
                   <div class="row d-flex align-items-center">
                     <div class="col-auto">
-                      <AtomLabel labelText="Exchange Rate 1 USD =" />
+                      <label>Exchange Rate 1 USD =</label>
                     </div>
                     <div class="col-3 m-0 p-0">
                       <AtomInput
@@ -149,36 +135,26 @@
                         v-model="params.ExchangeRate"
                       />
                     </div>
-                    <div class="col-auto"><AtomLabel labelText="AED" /></div>
+                    <div class="col-auto">
+                      <label>AED</label>
+                    </div>
                   </div>
                 </td>
                 <td colspan="3" rowspan="2"></td>
                 <td class="table-light">
-                  <AtomLabel labelText="AED in Total" />
+                  <label>AED in Total</label>
                 </td>
                 <td class="table-light text-end">
-                  <AtomInput
-                    class="form-control form-control-sm right-align-input"
-                    type="text"
-                    v-model="params.GrandVatAmountAed"
-                    :isDisabled="inputDisabled"
-                  />
+                 
+                  <label>{{ formatNumber(params.GrandVatAmountAed) }}</label>
                 </td>
-                <td class="table-light">
-                  <AtomInput
-                    class="form-control form-control-sm right-align-input"
-                    type="text"
-                    v-model="params.GrandSubAed"
-                    :isDisabled="inputDisabled"
-                  />
+                <td class="table-light text-end">
+                 
+                  <label>{{ formatNumber(params.GrandSubAed) }}</label>
                 </td>
-                <td class="table-light">
-                  <AtomInput
-                    class="form-control form-control-sm right-align-input"
-                    type="text"
-                    v-model="params.GrandTotalAed"
-                    :isDisabled="inputDisabled"
-                  />
+                <td class="table-light text-end">
+                 
+                  <label>{{ formatNumber(params.GrandTotalAed) }}</label>
                 </td>
                 <td colspan="1" rowspan="2"></td>
                 <td rowspan="2">
@@ -187,31 +163,16 @@
               </tr>
               <tr>
                 <td class="table-light">
-                  <AtomLabel labelText="USD in Total" />
+                  <label>USD in Total</label>
                 </td>
-                <td class="table-light">
-                  <AtomInput
-                    class="form-control form-control-sm right-align-input"
-                    type="text"
-                    v-model="params.GrandVatAmountUsd"
-                    :isDisabled="inputDisabled"
-                  />
+                <td class="table-light text-end">
+                  <label>{{ formatNumber(params.GrandVatAmountUsd) }}</label>
                 </td>
-                <td class="table-light">
-                  <AtomInput
-                    class="form-control form-control-sm right-align-input"
-                    type="text"
-                    v-model="params.GrandSubUsd"
-                    :isDisabled="inputDisabled"
-                  />
+                <td class="table-light text-end">
+                  <label>{{ formatNumber(params.GrandSubUsd) }}</label>
                 </td>
-                <td class="table-light">
-                  <AtomInput
-                    class="form-control form-control-sm right-align-input"
-                    type="text"
-                    v-model="params.GrandTotalUsd"
-                    :isDisabled="inputDisabled"
-                  />
+                <td class="table-light text-end">
+                  <label>{{ formatNumber(params.GrandTotalUsd) }}</label>
                 </td>
               </tr>
             </tfoot>
@@ -224,7 +185,6 @@
 
 <script>
 import AtomInput from "./atom/AtomInput.vue";
-import AtomLabel from "./atom/AtomLabel.vue";
 import AtomButtonIcons from "./atom/AtomButtonIcons.vue";
 import axios from "axios";
 import Swal from 'sweetalert2'
@@ -235,7 +195,6 @@ export default {
   name: "CostDetai",
   components: {
     AtomInput,
-    AtomLabel,
     AtomButtonIcons
   },
   props:{
@@ -282,6 +241,9 @@ export default {
   },
   methods: {
     ...mapMutations(['SetDatas']),
+    formatNumber(newValue){
+        return newValue.toFixed(2);
+    },
     submitEvent() {
       //set validation
       let panjang = this.$store.getters.GetDatas.Cost.length;
@@ -579,6 +541,9 @@ export default {
     font-size:0.8rem;
   }
   tbody tr td .form-select{
+    font-size:0.8rem;
+  }
+  tbody tr td label{
     font-size:0.8rem;
   }
 </style>
