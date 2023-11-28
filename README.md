@@ -20,3 +20,12 @@ Instalasi Frontend (Vue.Js v.2)
 4. run project : npm run serve
 5. Pastikan sudah melakukan command php artisan serv untuk mengambil data pada backend
 
+Nb:
+1. Unit Price (menggunakan Currency USD)
+2. Min Form Input 1 row
+3. Onchane currency dari USD ke AUD akan melakukan perkalihan sesuai data yang di isi pada ExchangeRate
+4. Button Submit akan memasukkan semua data pada vuex dengan type submit
+5. Button Submit akan memasukkan semua data pada vuex dengan type save a draft
+6. Button Cancel akan menghapus semua data pada vuex
+
+
