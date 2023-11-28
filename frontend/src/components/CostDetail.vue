@@ -273,7 +273,7 @@ export default {
     ...mapGetters(['GetDatas']),
     params() {
       return this.GetDatas;
-    }
+    },
   },
   mounted() {
     this.getUom();
@@ -282,8 +282,19 @@ export default {
   },
   methods: {
     ...mapMutations(['SetDatas']),
-
     submitEvent() {
+      //set validation
+      let panjang = this.$store.getters.GetDatas.Cost.length;
+      for (let i = 0; i < panjang; i++) {
+        if (this.$store.getters.GetDatas.Cost[i].Qty == null) {
+          alert ('Qty Is Required');
+          return;
+        }
+        if (this.$store.getters.GetDatas.Cost[i].UnitPrice == null) {
+          alert ('Unit Price Is Required');
+          return;
+        }
+      }
       const newParams = {
         Cost: this.$store.getters.GetDatas.Cost,
         ExchangeRate: this.$store.getters.GetDatas.ExchangeRate,
